@@ -4,7 +4,6 @@
   <img src="https://img.shields.io/badge/License-MIT-purple.svg?style=for-the-badge" alt="License">
 
   <h1>🚀 منصتي (Manassaty) | Techacher SaaS</h1>
-  <p><b>أقوى منصة تعليمية (SaaS) في الوطن العربي لإدارة الدروس والكورسات بنظام العلامة البيضاء (White-label)</b></p>
 </div>
 
 <br />
