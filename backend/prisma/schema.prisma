@@ -1,0 +1,167 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+enum Role {
+  SUPERADMIN
+  TEACHER
+  STUDENT
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role        Role     @default(STUDENT)
+  parentPhone String?  // Added for parent notifications
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  teacherProfile TeacherProfile?
+  enrollments    Enrollment[]
+  purchases      CoursePurchase[]
+  progress       LessonProgress[]
+  quizResults    QuizResult[]
+}
+
+model TeacherProfile {
+  id               String    @id @default(uuid())
+  userId           String    @unique
+  user             User      @relation(fields: [userId], references: [id])
+  subdomain        String?   @unique // For white-labeling e.g., mr-ahmed.techacher.com
+  subscriptionEnds DateTime? // SaaS Subscription End Date
+  isActive         Boolean   @default(false)
+  bio              String?   @db.Text
+  profileImage     String?
+  experienceYears  Int?      @default(0)
+  subject          String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  courses          Course[]
+  invoices         Invoice[] // SaaS invoices for the teacher
+}
+
+model Course {
+  id               String         @id @default(uuid())
+  teacherProfileId String
+  teacherProfile   TeacherProfile @relation(fields: [teacherProfileId], references: [id])
+  title            String
+  description      String?
+  price            Float          @default(0)
+  isPublished      Boolean        @default(false)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  lessons          Lesson[]
+  enrollments      Enrollment[]
+  purchases        CoursePurchase[]
+}
+
+model Lesson {
+  id          String   @id @default(uuid())
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id])
+  title       String
+  videoUrl    String?
+  content     String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  progress    LessonProgress[]
+  quiz        Quiz?
+}
+
+model Enrollment {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, courseId])
+}
+
+model CoursePurchase {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  amount    Float
+  status    String   @default("PENDING") // PENDING, COMPLETED, FAILED
+  createdAt DateTime @default(now())
+}
+
+model Invoice {
+  id               String         @id @default(uuid())
+  teacherProfileId String
+  teacherProfile   TeacherProfile @relation(fields: [teacherProfileId], references: [id])
+  amount           Float
+  status           String         @default("PENDING") // PENDING, PAID
+  billingPeriod    DateTime?
+  createdAt        DateTime       @default(now())
+}
+
+model LessonProgress {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id])
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, lessonId])
+}
+
+model Quiz {
+  id        String     @id @default(uuid())
+  lessonId  String     @unique
+  lesson    Lesson     @relation(fields: [lessonId], references: [id])
+  title     String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  questions Question[]
+  results   QuizResult[]
+}
+
+model Question {
+  id            String   @id @default(uuid())
+  quizId        String
+  quiz          Quiz     @relation(fields: [quizId], references: [id])
+  text          String
+  options       String[] // JSON array of options
+  correctAnswer Int      // Index of the correct option
+  createdAt     DateTime @default(now())
+}
+
+model QuizResult {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  quizId    String
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+  score     Int
+  total     Int
+  createdAt DateTime @default(now())
+
+  @@unique([userId, quizId])
+}
