@@ -79,7 +79,7 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
         body: JSON.stringify({ 
           bio, 
           profileImage, 
-          experienceYears: experienceYears ? parseInt(experienceYears as string) : 0, 
+          experienceYears: Number(experienceYears) || 0, 
           subject 
         })
       });
