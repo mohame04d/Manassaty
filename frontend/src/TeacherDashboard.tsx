@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from './config';
 
 export default function TeacherDashboard({ user, onLogout }: { user: any, onLogout: () => void }) {
   const [courses, setCourses] = useState<any[]>([]);
@@ -20,7 +21,7 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
 
   const fetchStats = async () => {
     try {
-      const res = await fetch('http://localhost:3000/analytics/dashboard', {
+      const res = await fetch(`${API_URL}/analytics/dashboard`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('techacher_token')}` }
       });
       if (res.ok) {
@@ -47,7 +48,7 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
     }
 
     try {
-      const res = await fetch('http://localhost:3000/tenant/subdomain', {
+      const res = await fetch(`${API_URL}/tenant/subdomain`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +70,7 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3000/tenant/profile', {
+      const res = await fetch(`${API_URL}/tenant/profile`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +96,7 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
 
   const fetchCourses = async () => {
     try {
-      const res = await fetch('http://localhost:3000/course/my-courses', {
+      const res = await fetch(`${API_URL}/course/my-courses`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('techacher_token')}`
         }
@@ -113,7 +114,7 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/course', {
+      const res = await fetch(`${API_URL}/course`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -140,7 +141,7 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
 
   const handleSubscribe = async () => {
     try {
-      const res = await fetch('http://localhost:3000/subscription/subscribe', {
+      const res = await fetch(`${API_URL}/subscription/subscribe`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('techacher_token')}`
@@ -234,10 +235,10 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
             <div style={{ background: 'rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '8px', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>انسخ هذا الرابط وشاركه مع طلابك:</span>
-                <p style={{ margin: '0.5rem 0 0 0', fontWeight: 'bold', color: '#6ee7b7' }}>http://localhost:5173/t/{subdomain}</p>
+                <p style={{ margin: '0.5rem 0 0 0', fontWeight: 'bold', color: '#6ee7b7' }}>{window.location.origin}/t/{subdomain}</p>
               </div>
               <button 
-                onClick={() => window.open(`http://localhost:5173/t/${subdomain}`, '_blank')}
+                onClick={() => window.open(`${window.location.origin}/t/${subdomain}`, '_blank')}
                 className="btn-primary" 
                 style={{ width: 'auto', background: '#10b981', padding: '0.5rem 1rem' }}
               >

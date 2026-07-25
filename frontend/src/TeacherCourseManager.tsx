@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { API_URL } from './config';
 
 export default function TeacherCourseManager() {
   const { id } = useParams();
@@ -21,7 +22,7 @@ export default function TeacherCourseManager() {
 
   const fetchCourse = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/course/${id}`);
+      const res = await fetch(`${API_URL}/course/${id}`);
       if (res.ok) setCourse(await res.json());
     } catch (e) {
       console.error(e);
@@ -31,7 +32,7 @@ export default function TeacherCourseManager() {
   const handleAddLesson = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:3000/lesson/${id}`, {
+      const res = await fetch(`${API_URL}/lesson/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +56,7 @@ export default function TeacherCourseManager() {
   const handleAddQuiz = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:3000/quiz`, {
+      const res = await fetch(`${API_URL}/quiz`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +92,7 @@ export default function TeacherCourseManager() {
   const handleDeleteLesson = async (lessonId: string) => {
     if (!confirm('هل أنت متأكد من حذف هذا الدرس؟')) return;
     try {
-      const res = await fetch(`http://localhost:3000/lesson/${lessonId}`, {
+      const res = await fetch(`${API_URL}/lesson/${lessonId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('techacher_token')}`

@@ -1,13 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
 
 :root {
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --bg-color: #0f172a;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --primary: #8b5cf6;       /* Premium Violet */
+  --primary-hover: #7c3aed; /* Darker Violet */
+  --accent: #fbbf24;        /* Amber Gold */
+  --accent-hover: #f59e0b;  
+  --bg-color: #111827;      /* Dark Charcoal */
+  --text-main: #f9fafb;
+  --text-muted: #9ca3af;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -26,9 +28,54 @@ body {
   align-items: center;
   justify-content: center;
   /* Premium animated background gradient */
-  background: radial-gradient(circle at top left, #1e1b4b, #0f172a),
-              radial-gradient(circle at bottom right, #312e81, #0f172a);
+  background: radial-gradient(circle at top left, #2e1065, #111827),
+              radial-gradient(circle at bottom right, #4c1d95, #111827);
   background-attachment: fixed;
+}
+
+/* Responsive Utilities */
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.flex-responsive {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.grid-responsive {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Hide links on mobile for simplicity, or we can use a hamburger menu later */
+  }
+  
+  .flex-responsive {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .nav-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
 }
 
 /* Glassmorphism Utilities */

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_URL } from './config';
 
 export default function Auth({ onAuthSuccess }: { onAuthSuccess: (user: any) => void }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,7 +16,7 @@ export default function Auth({ onAuthSuccess }: { onAuthSuccess: (user: any) => 
     
     try {
       // Assuming backend runs on localhost:3000
-      const res = await fetch(`http://localhost:3000${endpoint}`, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

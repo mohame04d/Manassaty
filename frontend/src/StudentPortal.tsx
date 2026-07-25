@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_URL } from './config';
 
 export default function StudentPortal({ user, onLogout }: { user: any, onLogout: () => void }) {
   const [courses, setCourses] = useState<any[]>([]);
@@ -10,7 +11,7 @@ export default function StudentPortal({ user, onLogout }: { user: any, onLogout:
 
   const fetchCourses = async () => {
     try {
-      const res = await fetch('http://localhost:3000/course/all', {
+      const res = await fetch(`${API_URL}/course/all`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('techacher_token')}`
         }
@@ -27,7 +28,7 @@ export default function StudentPortal({ user, onLogout }: { user: any, onLogout:
 
   const handleBuyCourse = async (courseId: string) => {
     try {
-      const res = await fetch(`http://localhost:3000/payment/buy/${courseId}`, {
+      const res = await fetch(`${API_URL}/payment/buy/${courseId}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('techacher_token')}`

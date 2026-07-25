@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { API_URL } from './config';
 
 export default function StudentAuth({ onAuthSuccess }: { onAuthSuccess: (user: any) => void }) {
   const { subdomain } = useParams();
@@ -26,7 +27,7 @@ export default function StudentAuth({ onAuthSuccess }: { onAuthSuccess: (user: a
       : { email, password, name, role, parentPhone };
 
     try {
-      const res = await fetch(`http://localhost:3000${endpoint}`, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

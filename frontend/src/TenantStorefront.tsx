@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { API_URL } from './config';
 
 export default function TenantStorefront() {
   const { subdomain } = useParams();
@@ -18,7 +19,7 @@ export default function TenantStorefront() {
     if (token) {
       // Try to fetch personalized student dashboard
       try {
-        const res = await fetch(`http://localhost:3000/student/dashboard/${subdomain}`, {
+        const res = await fetch(`${API_URL}/student/dashboard/${subdomain}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -34,7 +35,7 @@ export default function TenantStorefront() {
     
     // Fallback to public storefront
     try {
-      const res = await fetch(`http://localhost:3000/tenant/${subdomain}`);
+      const res = await fetch(`${API_URL}/tenant/${subdomain}`);
       const data = await res.json();
       if (res.ok) {
         setTenant(data);
@@ -52,7 +53,7 @@ export default function TenantStorefront() {
 
   const handleBuyCourse = async (courseId: string) => {
     try {
-      const res = await fetch(`http://localhost:3000/payment/buy/${courseId}`, {
+      const res = await fetch(`${API_URL}/payment/buy/${courseId}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${localStorage.getItem('techacher_token')}` }
       });

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { API_URL } from './config';
 
 export default function CoursePlayer() {
   const { id } = useParams();
@@ -32,7 +33,7 @@ export default function CoursePlayer() {
     setQuizResult(null);
     setStudentAnswers([]);
     try {
-      const res = await fetch(`http://localhost:3000/quiz/lesson/${lessonId}`, {
+      const res = await fetch(`${API_URL}/quiz/lesson/${lessonId}`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('techacher_token')}` }
       });
       if (res.ok) {
@@ -61,7 +62,7 @@ export default function CoursePlayer() {
     }
     setSubmittingQuiz(true);
     try {
-      const res = await fetch(`http://localhost:3000/quiz/${quiz.id}/submit`, {
+      const res = await fetch(`${API_URL}/quiz/${quiz.id}/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,7 +83,7 @@ export default function CoursePlayer() {
 
   const fetchProgress = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/progress/course/${id}`, {
+      const res = await fetch(`${API_URL}/progress/course/${id}`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('techacher_token')}` }
       });
       if (res.ok) setProgress(await res.json());
@@ -93,7 +94,7 @@ export default function CoursePlayer() {
 
   const handleMarkAsComplete = async (lessonId: string) => {
     try {
-      const res = await fetch(`http://localhost:3000/progress/${lessonId}/complete`, {
+      const res = await fetch(`${API_URL}/progress/${lessonId}/complete`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${localStorage.getItem('techacher_token')}` }
       });
@@ -107,7 +108,7 @@ export default function CoursePlayer() {
 
   const fetchLessons = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/lesson/course/${id}`, {
+      const res = await fetch(`${API_URL}/lesson/course/${id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('techacher_token')}`
         }

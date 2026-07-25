@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_URL } from './config';
 
 export default function SuperAdminDashboard({ onLogout }: { user?: any, onLogout: () => void }) {
   const [teachers, setTeachers] = useState<any[]>([]);
@@ -10,7 +11,7 @@ export default function SuperAdminDashboard({ onLogout }: { user?: any, onLogout
 
   const fetchTeachers = async () => {
     try {
-      const res = await fetch('http://localhost:3000/subscription/teachers', {
+      const res = await fetch(`${API_URL}/subscription/teachers`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('techacher_token')}`
         }
@@ -27,7 +28,7 @@ export default function SuperAdminDashboard({ onLogout }: { user?: any, onLogout
 
   const toggleSubscription = async (teacherProfileId: string, isActive: boolean) => {
     try {
-      const res = await fetch(`http://localhost:3000/subscription/toggle/${teacherProfileId}`, {
+      const res = await fetch(`${API_URL}/subscription/toggle/${teacherProfileId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
