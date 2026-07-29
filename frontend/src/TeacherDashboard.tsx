@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from './config';
+import toast from 'react-hot-toast';
 
 export default function TeacherDashboard({ user, onLogout }: { user: any, onLogout: () => void }) {
   const [courses, setCourses] = useState<any[]>([]);
@@ -57,13 +58,13 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
         body: JSON.stringify({ subdomain: cleanSub })
       });
       if (res.ok) {
-        alert('تم تحديث رابط المنصة بنجاح!');
+        toast.success('تم تحديث رابط المنصة بنجاح!');
       } else {
         const err = await res.json();
-        alert('خطأ: ' + (err.message || 'غير معروف'));
+        toast.error('خطأ: ' + (err.message || 'غير معروف'));
       }
     } catch (e: any) {
-      alert('خطأ في الاتصال: ' + e.message);
+      toast.error('خطأ في الاتصال: ' + e.message);
     }
   };
 
@@ -84,13 +85,13 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
         })
       });
       if (res.ok) {
-        alert('تم تحديث الملف الشخصي بنجاح!');
+        toast.success('تم تحديث الملف الشخصي بنجاح!');
       } else {
         const err = await res.json();
-        alert('خطأ: ' + (err.message || 'غير معروف'));
+        toast.error('خطأ: ' + (err.message || 'غير معروف'));
       }
     } catch (e: any) {
-      alert('خطأ في الاتصال: ' + e.message);
+      toast.error('خطأ في الاتصال: ' + e.message);
     }
   };
 
@@ -124,17 +125,17 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
       });
       
       if (res.ok) {
-        alert('تم إنشاء الكورس بنجاح!');
+        toast.success('تم إنشاء الكورس بنجاح!');
         setTitle('');
         setDescription('');
         setPrice('');
         fetchCourses();
       } else {
         const err = await res.json();
-        alert('خطأ: ' + (err.message || 'لا يمكن إتمام العملية'));
+        toast.success('خطأ: ' + (err.message || 'لا يمكن إتمام العملية'));
       }
     } catch (e) {
-      alert('حدث خطأ في الاتصال');
+      toast.error('حدث خطأ في الاتصال');
     }
     setLoading(false);
   };
@@ -152,10 +153,10 @@ export default function TeacherDashboard({ user, onLogout }: { user: any, onLogo
         // Redirect to Paymob iframe or simulated endpoint
         window.location.href = data.paymentUrl;
       } else {
-        alert('خطأ: ' + (data.message || 'فشل في إنشاء الدفع'));
+        toast.error('خطأ: ' + (data.message || 'فشل في إنشاء الدفع'));
       }
     } catch (e) {
-      alert('خطأ في الاتصال');
+      toast.error('خطأ في الاتصال');
     }
   };
 

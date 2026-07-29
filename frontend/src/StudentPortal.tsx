@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { API_URL } from './config';
+import toast from 'react-hot-toast';
 
 export default function StudentPortal({ user, onLogout }: { user: any, onLogout: () => void }) {
   const [courses, setCourses] = useState<any[]>([]);
@@ -36,13 +37,13 @@ export default function StudentPortal({ user, onLogout }: { user: any, onLogout:
       });
       const data = await res.json();
       if (res.ok) {
-        alert('تم الشراء بنجاح! يمكنك الآن مشاهدة الكورس.');
+        toast.success('تم الشراء بنجاح! يمكنك الآن مشاهدة الكورس.');
         window.location.href = `/play/${courseId}`;
       } else {
-        alert(data.message || 'حدث خطأ أثناء الشراء');
+        toast.error(data.message || 'حدث خطأ أثناء الشراء');
       }
     } catch (e) {
-      alert('خطأ في الاتصال');
+      toast.error('خطأ في الاتصال');
     }
   };
 

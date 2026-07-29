@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { API_URL } from './config';
+import toast from 'react-hot-toast';
 
 export default function Auth({ onAuthSuccess }: { onAuthSuccess: (user: any) => void }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -26,10 +27,10 @@ export default function Auth({ onAuthSuccess }: { onAuthSuccess: (user: any) => 
         localStorage.setItem('techacher_token', data.access_token);
         onAuthSuccess(data.user);
       } else {
-        alert('خطأ: ' + (data.message || 'حدث خطأ غير متوقع'));
+        toast.error('خطأ: ' + (data.message || 'حدث خطأ غير متوقع'));
       }
     } catch (err) {
-      alert('لا يمكن الاتصال بالخادم. تأكد من تشغيل الـ Backend.');
+      toast.error('لا يمكن الاتصال بالخادم. تأكد من تشغيل الـ Backend.');
     }
   };
 

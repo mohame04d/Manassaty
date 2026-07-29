@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { API_URL } from './config';
+import toast from 'react-hot-toast';
 
 export default function PaymentSimulation() {
   const [searchParams] = useSearchParams();
@@ -15,7 +16,7 @@ export default function PaymentSimulation() {
 
     if (orderId === 'SAAS-DEMO-999') {
       setTimeout(() => {
-        alert('تم تأكيد الدفع بنجاح! 🎉 يرجى الآن إنشاء حسابك للبدء في استخدام المنصة.');
+        toast.success('تم تأكيد الدفع بنجاح! 🎉 يرجى الآن إنشاء حسابك للبدء في استخدام المنصة.');
         navigate('/auth');
       }, 1500);
       return;
@@ -33,13 +34,13 @@ export default function PaymentSimulation() {
       
       const data = await res.json();
       if (res.ok) {
-        alert('تم الدفع وتفعيل الحساب بنجاح! 🎉');
+        toast.success('تم الدفع وتفعيل الحساب بنجاح! 🎉');
         navigate('/dashboard'); 
       } else {
-        alert('خطأ: ' + (data.message || 'حدث خطأ غير معروف'));
+        toast.error('خطأ: ' + (data.message || 'حدث خطأ غير معروف'));
       }
     } catch (e) {
-      alert('فشل الاتصال بالخادم');
+      toast.error('فشل الاتصال بالخادم');
     }
     setLoading(false);
   };

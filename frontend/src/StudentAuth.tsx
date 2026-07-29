@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { API_URL } from './config';
+import toast from 'react-hot-toast';
 
 export default function StudentAuth({ onAuthSuccess }: { onAuthSuccess: (user: any) => void }) {
   const { subdomain } = useParams();
@@ -17,7 +18,7 @@ export default function StudentAuth({ onAuthSuccess }: { onAuthSuccess: (user: a
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isLogin && password !== confirmPassword) {
-      alert('كلمات المرور غير متطابقة!');
+      toast.error('كلمات المرور غير متطابقة!');
       return;
     }
 
@@ -38,10 +39,10 @@ export default function StudentAuth({ onAuthSuccess }: { onAuthSuccess: (user: a
         onAuthSuccess(data.user);
         navigate(`/t/${subdomain}`); // Redirect back to storefront
       } else {
-        alert('خطأ: ' + (data.message || 'حدث خطأ غير متوقع'));
+        toast.error('خطأ: ' + (data.message || 'حدث خطأ غير متوقع'));
       }
     } catch (err) {
-      alert('خطأ في الاتصال بالخادم!');
+      toast.error('خطأ في الاتصال بالخادم!');
     }
   };
 

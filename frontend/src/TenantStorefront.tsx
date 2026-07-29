@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { API_URL } from './config';
+import toast from 'react-hot-toast';
 
 export default function TenantStorefront() {
   const { subdomain } = useParams();
@@ -59,13 +60,13 @@ export default function TenantStorefront() {
       });
       const data = await res.json();
       if (res.ok) {
-        alert('تم الشراء بنجاح! يمكنك الآن مشاهدة الكورس.');
+        toast.success('تم الشراء بنجاح! يمكنك الآن مشاهدة الكورس.');
         fetchData(); // Refresh to show in My Courses
       } else {
-        alert(data.message || 'يرجى تسجيل الدخول كطالب لشراء الكورس.');
+        toast.error(data.message || 'يرجى تسجيل الدخول كطالب لشراء الكورس.');
       }
     } catch (e) {
-      alert('خطأ في الاتصال');
+      toast.error('خطأ في الاتصال');
     }
   };
 

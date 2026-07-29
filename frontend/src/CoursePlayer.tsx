@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { API_URL } from './config';
+import toast from 'react-hot-toast';
 
 export default function CoursePlayer() {
   const { id } = useParams();
@@ -57,7 +58,7 @@ export default function CoursePlayer() {
   const handleSubmitQuiz = async () => {
     if (!quiz) return;
     if (studentAnswers.length < quiz.questions.length) {
-      alert('يرجى الإجابة على جميع الأسئلة أولاً.');
+      toast.error('يرجى الإجابة على جميع الأسئلة أولاً.');
       return;
     }
     setSubmittingQuiz(true);
@@ -73,7 +74,7 @@ export default function CoursePlayer() {
       if (res.ok) {
         setQuizResult(await res.json());
       } else {
-        alert('حدث خطأ أثناء إرسال الامتحان');
+        toast.error('حدث خطأ أثناء إرسال الامتحان');
       }
     } catch (e) {
       console.error(e);
@@ -102,7 +103,7 @@ export default function CoursePlayer() {
         fetchProgress();
       }
     } catch (e) {
-      alert('خطأ أثناء تحديث التقدم');
+      toast.error('خطأ أثناء تحديث التقدم');
     }
   };
 

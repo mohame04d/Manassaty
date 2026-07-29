@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { API_URL } from './config';
+import toast from 'react-hot-toast';
 
 export default function TeacherCourseManager() {
   const { id } = useParams();
@@ -46,7 +47,7 @@ export default function TeacherCourseManager() {
         setContent('');
         fetchCourse();
       } else {
-        alert('حدث خطأ أثناء إضافة الدرس');
+        toast.error('حدث خطأ أثناء إضافة الدرس');
       }
     } catch (e) {
       console.error(e);
@@ -69,10 +70,10 @@ export default function TeacherCourseManager() {
         setQuizTitle('');
         setQuestions([{ text: '', options: ['', '', '', ''], correctAnswer: 0 }]);
         fetchCourse();
-        alert('تمت إضافة الامتحان بنجاح!');
+        toast.success('تمت إضافة الامتحان بنجاح!');
       } else {
         const data = await res.json();
-        alert('خطأ: ' + (data.message || 'حدث خطأ غير متوقع'));
+        toast.error('خطأ: ' + (data.message || 'حدث خطأ غير متوقع'));
       }
     } catch (e) {
       console.error(e);
