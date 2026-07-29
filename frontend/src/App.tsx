@@ -11,6 +11,8 @@ import StudentAuth from './StudentAuth';
 import PaymentSimulation from './PaymentSimulation';
 import LandingPage from './LandingPage';
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   const [user, setUser] = useState<any>(null);
 
@@ -33,6 +35,7 @@ function App() {
 
   return (
     <Router>
+      <Toaster position="top-center" />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route 
